@@ -1,0 +1,21 @@
+diff --git a/Sandboxie/core/drv/verify.c b/Sandboxie/core/drv/verify.c
+index 5cde51b0..d6505c89 100644
+--- a/Sandboxie/core/drv/verify.c
++++ b/Sandboxie/core/drv/verify.c
+@@ -227,7 +227,9 @@ NTSTATUS KphVerifySignature(
+     BCRYPT_KEY_HANDLE keyHandle = NULL;
+     PVOID hash = NULL;
+     ULONG hashSize;
+
++    // 此处直接返回
++	return STATUS_SUCCESS;
+     // Import the trusted public key.
+ 
+     if (!NT_SUCCESS(status = BCryptOpenAlgorithmProvider(&signAlgHandle, KPH_SIGN_ALGORITHM, NULL, 0)))
+@@ -1083,4 +1085,4 @@ void InitFwUuid()
+ 
+         //DbgPrint("sbie FW-UUID: %S\n", g_uuid_str);
+     }
+-}
+\ No newline at end of file
++}

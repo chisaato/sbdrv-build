@@ -1,0 +1,53 @@
+name: build-drv
+
+on:
+  workflow_dispatch:
+
+  push:
+    branches:
+      - main
+
+env:
+  # 此处使用仓库的 rev 所以可以是 SHA/Tag/分支名
+  sbie_version: v1.14.3
+
+jobs:
+  build-x64:
+    runs-on: windows-2019
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.5
+        with:
+          repository: "sandboxie-plus/Sandboxie"
+          rev: ${{ env.sbie_version }}
+          path: "Sandboxie"
+
+      - name: Setup msbuild
+        uses: microsoft/setup-msbuild@v2
+
+        # 进入目录应用补丁
+      - name: 打入补丁
+        run: |
+          git apply ../drv.diff
+        working-directory: Sandboxie
+
+      - name: 构建驱动
+        run: msbuild /t:build Sandboxie\SandboxDrv.sln /p:Configuration="Release" /p:Platform=x64 -maxcpucount:8
+        working-directory: Sandboxie
+
+      # 拷贝出文件,同时写入一个文本文件,作为版本号
+      - name: 拷贝出驱动
+        run: |
+          mkdir driver
+          copy Sandboxie\Sandboxie\Bin\x64\SbieRelease\SbieDrv.sys driver\
+          echo ${{ env.sbie_version }} > driver\version.txt
+      - name: 上传
+        #if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v4.3.3
+        with:
+          name: SbieDrv_x64_${{ env.sbie_version }}
+          path: |
+            driver/*
+          retention-days: 60
