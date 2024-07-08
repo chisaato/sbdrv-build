@@ -30,10 +30,15 @@ jobs:
       - name: Setup msbuild
         uses: microsoft/setup-msbuild@v2
 
-        # 进入目录应用补丁
+      - name: 列一下目录
+        run: |
+          ls
+        # working-directory: Sandboxie
+
+      # 进入目录应用补丁
       - name: 打入补丁
         run: |
-          ls 
+          ls
           git apply ..\drv.diff
         working-directory: Sandboxie
 
