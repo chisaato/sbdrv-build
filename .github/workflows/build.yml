@@ -30,7 +30,7 @@ jobs:
         # 进入目录应用补丁
       - name: 打入补丁
         run: |
-          git apply ../drv.diff
+          git apply ..\drv.diff
         working-directory: Sandboxie
 
       - name: 构建驱动
