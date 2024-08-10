@@ -51,6 +51,7 @@ jobs:
         run: |
           mkdir driver
           copy Sandboxie\Sandboxie\Bin\x64\SbieRelease\SbieDrv.sys driver\
+          copy Sandboxie\Sandboxie\Bin\x64\SbieRelease\SbieDrv.pdb driver\
           echo ${{ env.sbie_version }} > driver\version.txt
       - name: 上传
         #if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
