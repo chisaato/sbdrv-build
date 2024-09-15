@@ -9,7 +9,7 @@ on:
 
 env:
   # 此处使用仓库的 ref 所以可以是 SHA/Tag/分支名
-  sbie_version: v1.14.6
+  sbie_version: v1.14.8
 
 jobs:
   build-x64:
