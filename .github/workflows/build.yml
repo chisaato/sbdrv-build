@@ -2,14 +2,19 @@ name: build-drv
 
 on:
   workflow_dispatch:
+    inputs:
+      sbie_version:
+        type: string
+        description: "Sandboxie版本,带 v 开头"
+        required: true
 
-  push:
-    branches:
-      - main
+  # push:
+  #   branches:
+  #     - main
 
 env:
   # 此处使用仓库的 ref 所以可以是 SHA/Tag/分支名
-  sbie_version: v1.15.4
+  sbie_version: ${{ github.event.inputs.sbie_version }}
 
 jobs:
   build-x64:
@@ -33,7 +38,7 @@ jobs:
       # - name: 列一下目录
       #   run: |
       #     ls
-        # working-directory: Sandboxie
+      # working-directory: Sandboxie
 
       # 进入目录应用补丁
       - name: 打入补丁
