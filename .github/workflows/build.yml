@@ -18,15 +18,15 @@ env:
 
 jobs:
   build-x64:
-    runs-on: windows-2019
+    runs-on: windows-2022
     timeout-minutes: 45
 
     steps:
       - name: 检出当前代码
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: 检出目标代码
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: "sandboxie-plus/Sandboxie"
           ref: ${{ env.sbie_version }}
@@ -60,7 +60,7 @@ jobs:
           echo ${{ env.sbie_version }} > driver\version.txt
       - name: 上传
         #if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
-        uses: actions/upload-artifact@v4.3.3
+        uses: actions/upload-artifact@v4
         with:
           name: SbieDrv_x64_${{ env.sbie_version }}
           path: |
